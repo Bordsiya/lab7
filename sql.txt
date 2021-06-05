@@ -1,0 +1,67 @@
+#creating tables
+CREATE TABLE users
+(
+	id SERIAL PRIMARY KEY,
+	username TEXT NOT NULL,
+	password TEXT NOT NULL,
+	CHECK((username!='') AND (password!=''))
+);
+
+CREATE TABLE space_ships
+(
+	ship_id SERIAL PRIMARY KEY,
+	creator_id INTEGER REFERENCES users(id),
+	name TEXT NOT NULL,
+	creation_date TIMESTAMP NOT NULL,
+	health REAL,
+	achievements TEXT,
+	weapon_type TEXT,
+	melee_weapon TEXT NOT NULL,
+	CHECK((name!='') AND (health>0))
+);
+
+CREATE TABLE coordinate
+(
+	id SERIAL PRIMARY KEY,
+	ship_id INTEGER REFERENCES space_ships(ship_id),
+	x BIGINT,
+	y DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE chapter
+(
+	id SERIAL PRIMARY KEY,
+	ship_id INTEGER REFERENCES space_ships(ship_id),
+	name TEXT NOT NULL,
+	world TEXT NOT NULL,
+	CHECK(name!='')
+);
+
+#adding users
+#iwannadie
+INSERT INTO users(username, password)
+VALUES ('astard', '750480729cb7d510334ac8b04fe14b79f2e229645a2d4941ebecf4af33f15891');
+
+#killmeplz
+INSERT INTO users(username, password)
+VALUES ('bordsia', '95ee46552f0aced606b5c0b2f668f3fd5050a385be6fbfd24df7fed75567fe0a');
+
+#hardpassword
+INSERT INTO users(username, password)
+VALUES ('angelofdata', 'b52807f8351398da5093a8ffee9fb222b94c7666bf4995461928c63ea87a1524');
+
+#adding data1
+INSERT INTO space_ships(creator_id, name, creation_date, health, achievements, weapon_type,
+					   melee_weapon)
+VALUES (1, 'Влад', '2021-02-19 06:09:19.521', 100.5, 'Милота, добродушие', 'MULTI_MELTA', 'CHAIN_AXE');
+
+INSERT INTO coordinate(ship_id, x, y) VALUES(1,88,44.79);
+INSERT INTO chapter(ship_id, name, world) VALUES(1,'Глава 2', 'Мир Гарри Поттера');
+
+#adding data2
+INSERT INTO space_ships(creator_id, name, creation_date, health, achievements, weapon_type,
+					   melee_weapon)
+VALUES (2, 'Настя', '2021-02-19 08:04:17.521', 0.5, 'Пассивная агрессия, любовь к яою', 'FLAMER', 'MANREAPER');
+
+INSERT INTO coordinate(ship_id, x, y) VALUES(2,52,4.77);
+INSERT INTO chapter(ship_id, name, world) VALUES(2,'Пролог', 'Алфея');
